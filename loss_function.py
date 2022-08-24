@@ -61,7 +61,7 @@ def GCCA(M_list, rank_m = 10, r = 1e-8):
 def back(G, R_list,Z,F_list,lr,lambda1,lambda2,lambda3,A):
     z_grad1 = []
     z_grad3 = []
-    g_F_list = []
+    FX_list = []
     loss = 0
     for i in range(len(R_list)):
         GR = torch.matmul(G,R_list[i].T)
@@ -76,19 +76,19 @@ def back(G, R_list,Z,F_list,lr,lambda1,lambda2,lambda3,A):
         f_grad2 = torch.matmul(torch.matmul(ZI, ZI), F_list[i])
         f_grad = 2 * (f_grad1 + lambda2 * f_grad2)
         FX = F_list[i] - lr * f_grad
-        g_F_list.append(FX)
+        FX_list.append(FX)
 
     z_grad2 = Z
     z_grad4 = torch.matmul(torch.mul(A,Z),A)
     z_grad = 2 * (sum(z_grad1) + lambda1 * z_grad2 + lambda2 * sum(z_grad3) + lambda3 * z_grad4)
 
-    for F in g_F_list:
+    for F in FX_list:
         loss += torch.sum(torch.pow(torch.matmul(Z, F) - F, 2))
 
     Z = Z - lr * z_grad
 
 
-    return Z,g_F_list,loss
+    return Z,FX_list,loss
 
 def loss_function(z, block, f_list, zf_list, weight_coef, weight_selfExp, weight_block,lr):
     loss_gcca, G, R_list = GCCA(zf_list)
