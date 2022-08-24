@@ -1,7 +1,7 @@
 # DMDIN
 Realization for the network: deep multimodal discriminative representation
 
-#File description
+# File description
 train.py -- Main file for setting and training model.
 valid.py -- Evaluation for validation set.
 test.py -- Evaluate the model.
