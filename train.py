@@ -38,10 +38,11 @@ def train(model,
             acc_tr, acc_val, _, _, _ = eval(fy_tr_list, fy_val_list, svmc)
             if acc_val >= max_acc_val:
                 max_acc_val = acc_val
+                max_fy_tr = fy_tr_list
                 torch.save(model.state_dict(), checkpoint)
 
 
-    return fy_tr_list,acc_val
+    return max_fy_tr ,max_acc_val
 
 
 if __name__ == "__main__":
