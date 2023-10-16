@@ -36,7 +36,7 @@ def train(model,
         if val_loader != None:
             fy_val_list = valid(val_loader, model, modalities, weight_coef, weight_selfExp, weight_block)
             acc_tr, acc_val, _, _, _ = eval(fy_tr_list, fy_val_list, svmc)
-            if acc_val > max_acc_val:
+            if acc_val >= max_acc_val:
                 max_acc_val = acc_val
                 torch.save(model.state_dict(), checkpoint)
 
